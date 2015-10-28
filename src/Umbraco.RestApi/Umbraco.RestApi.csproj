@@ -300,6 +300,7 @@
     <Compile Include="Models\RelationRepresentation.cs" />
     <Compile Include="Models\UmbracoRepresentation.cs" />
     <Compile Include="Models\UmbracoRepresentationBase.cs" />
+    <Compile Include="RestApiCookieManager.cs" />
     <Compile Include="Routing\UmbracoRoutePrefixAttribute.cs" />
     <Compile Include="Routing\CustomRouteAttributeDirectRouteProvider.cs" />
     <Compile Include="Routing\CustomRouteAttribute.cs" />
