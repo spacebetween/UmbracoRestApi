@@ -30,6 +30,7 @@ using Umbraco.Core.Models.EntityBase;
 
 namespace Umbraco.RestApi.Tests
 {
+    [Ignore("These tests have been copy/pasted, they need a mock setup in order to work")]
     [TestFixture]
     public class RelationsControllerTests
     {

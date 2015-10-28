@@ -1,10 +1,10 @@
-﻿using Microsoft.Owin.Logging;
-using Moq;
+﻿using Moq;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Umbraco.Core.Logging;
 using Umbraco.Core.Models;
 using Umbraco.Core.PropertyEditors;
 using Umbraco.Core.Services;
@@ -19,6 +19,8 @@ namespace Umbraco.RestApi.Tests.TestHelpers
             mockMemberService.Setup(x => x.GetById(It.IsAny<int>())).Returns(() => ModelMocks.SimpleMockedMember());
             mockMemberService.Setup(x => x.CreateMember(It.IsAny<string>(), It.IsAny<string>(), It.IsAny<string>(), It.IsAny<string>()))
                 .Returns(() => ModelMocks.SimpleMockedMember(8888));
+            mockMemberService.Setup(x => x.CreateMember(It.IsAny<string>(), It.IsAny<string>(), It.IsAny<string>(), It.IsAny<IMemberType>()))
+               .Returns(() => ModelMocks.SimpleMockedMember(8888));
 
             var mockMemberTypeService = Mock.Get(serviceContext.MemberTypeService);
             mockMemberTypeService.Setup(x => x.Get(It.IsAny<string>())).Returns(ModelMocks.SimpleMockedMemberType());

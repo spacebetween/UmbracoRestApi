@@ -123,6 +123,7 @@ namespace Umbraco.RestApi.Tests
             }
         }
 
+        [Ignore("This is not implemented yet")]
         [Test]
         public async void Search_200_Result()
         {
@@ -215,6 +216,7 @@ namespace Umbraco.RestApi.Tests
             }
         }
 
+        [Ignore("This is not implemented yet")]
         [Test]
         public async void Get_Metadata_Result()
         {
@@ -276,10 +278,10 @@ namespace Umbraco.RestApi.Tests
 
                 request.Headers.Accept.Add(new MediaTypeWithQualityHeaderValue("application/hal+json"));
                 request.Content = new StringContent(@"{
-  ""memberTypeAlias"": ""testType"",
+  ""contentTypeAlias"": ""testType"",
   ""name"": ""John Johnson"",
   ""email"" : ""john@johnson.com"",
-  ""loginName"" : ""johnjohnson"",
+  ""userName"" : ""johnjohnson"",
   ""properties"": {
     ""TestProperty1"": ""property value1"",
     ""testProperty2"": ""property value2""
@@ -318,10 +320,10 @@ namespace Umbraco.RestApi.Tests
                 request.Headers.Accept.Add(new MediaTypeWithQualityHeaderValue("application/hal+json"));
                 //NOTE: it is missing
                 request.Content = new StringContent(@"{
-  ""memberTypeAlias"": """",
+  ""contentTypeAlias"": """",
   ""name"": ""John Johnson"",
   ""email"" : """",
-  ""loginName"" : ""johnjohnson"",
+  ""userName"" : ""johnjohnson"",
   ""properties"": {
     ""TestProperty1"": ""property value1"",
     ""testProperty2"": ""property value2""
@@ -340,8 +342,9 @@ namespace Umbraco.RestApi.Tests
                 var djson = JsonConvert.DeserializeObject<JObject>(json);
 
                 Assert.AreEqual(2, djson["totalResults"].Value<int>());
-                Assert.AreEqual("content.memberTypeAlias", djson["_embedded"]["errors"][0]["logRef"].Value<string>());
-                Assert.AreEqual("content.email", djson["_embedded"]["errors"][1]["logRef"].Value<string>());
+                Assert.AreEqual("content.Email", djson["_embedded"]["errors"][0]["logRef"].Value<string>());
+                Assert.AreEqual("content.ContentTypeAlias", djson["_embedded"]["errors"][1]["logRef"].Value<string>());
+                
             }
         }
 
@@ -366,10 +369,10 @@ namespace Umbraco.RestApi.Tests
                 request.Headers.Accept.Add(new MediaTypeWithQualityHeaderValue("application/hal+json"));
                 //NOTE: it is missing
                 request.Content = new StringContent(@"{
-  ""memberTypeAlias"": ""testType"",
+  ""contentTypeAlias"": ""testType"",
   ""name"": ""John Johnson"",
   ""email"" : ""john@johnson.com"",
-  ""loginName"" : ""johnjohnson"",
+  ""userName"" : ""johnjohnson"",
   ""parentId"": 456,
   ""templateId"": 9,
   ""properties"": {
@@ -419,10 +422,10 @@ namespace Umbraco.RestApi.Tests
                 request.Headers.Accept.Add(new MediaTypeWithQualityHeaderValue("application/hal+json"));
                 //NOTE: it is missing
                 request.Content = new StringContent(@"{
-   ""memberTypeAlias"": ""testType"",
+   ""contentTypeAlias"": ""testType"",
   ""name"": ""John Johnson"",
   ""email"" : ""john@johnson.com"",
-  ""loginName"" : ""johnjohnson"",
+  ""userName"" : ""johnjohnson"",
   ""properties"": {
     ""TestProperty1"": """",
     ""testProperty2"": ""property value2""
@@ -466,10 +469,10 @@ namespace Umbraco.RestApi.Tests
 
                 request.Headers.Accept.Add(new MediaTypeWithQualityHeaderValue("application/hal+json"));
                 request.Content = new StringContent(@"{
-  ""memberTypeAlias"": ""testType"",
-  ""parentId"": 456,
-  ""templateId"": 9,
-  ""name"": ""Home"",
+  ""contentTypeAlias"": ""testType"",
+  ""name"": ""John Johnson"",
+  ""email"" : ""john@johnson.com"",
+  ""userName"" : ""johnjohnson"",
   ""properties"": {
     ""TestProperty1"": ""property value1"",
     ""testProperty2"": ""property value2""
@@ -500,9 +503,15 @@ namespace Umbraco.RestApi.Tests
 
             using (var server = TestServer.Create(builder => startup.Configuration(builder)))
             {
-                MultipartFormDataContent mfdc = new MultipartFormDataContent();
+                var mfdc = new MultipartFormDataContent();
                 mfdc.Add(
-                        new StreamContent(new MemoryStream(Encoding.UTF8.GetBytes("This is from a file"))),
+                        new StreamContent(new MemoryStream(Encoding.UTF8.GetBytes("This is from a file")))
+                        {
+                            Headers =
+                            {
+                                ContentType = new MediaTypeHeaderValue("image/jpg")
+                            }
+                        },
                         name: "Data",
                         fileName: "File1.txt");
 

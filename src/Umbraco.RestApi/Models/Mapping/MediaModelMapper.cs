@@ -57,7 +57,7 @@ namespace Umbraco.RestApi.Models
                     return result;
                 });
 
-            config.CreateMap<ContentRepresentation, IMedia>()
+            config.CreateMap<MediaRepresentation, IMedia>()
                 .IgnoreAllUnmapped()
                 .ForMember(content => content.Name, expression => expression.MapFrom(representation => representation.Name))
                 //TODO: This could be used to 'Move' an item but we'd have to deal with that, not sure we should deal with that in a mapping

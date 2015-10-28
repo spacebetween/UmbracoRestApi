@@ -8,6 +8,7 @@ using System.Web.Http.Dispatcher;
 using System.Web.Security;
 using Examine.Providers;
 using Moq;
+using Semver;
 using Umbraco.Core;
 using Umbraco.Core.Configuration.UmbracoSettings;
 using Umbraco.Core.Dictionary;
@@ -39,10 +40,15 @@ namespace Umbraco.RestApi.Tests.TestHelpers
                 var mockedTypedContent = Mock.Of<ITypedPublishedContentQuery>();
                 var mockedContentService = Mock.Of<IContentService>();
                 var mockedContentTypeService = Mock.Of<IContentTypeService>();
+                var mockedMemberTypeService = Mock.Of<IMemberTypeService>();
                 var mockedMediaService = Mock.Of<IMediaService>();
                 var mockedMemberService = Mock.Of<IMemberService>();
                 var mockedTextService = Mock.Of<ILocalizedTextService>();
                 var mockedDataTypeService = Mock.Of<IDataTypeService>();
+                var mockedRelationService = Mock.Of<IRelationService>();
+                var mockedMigrationService = new Mock<IMigrationEntryService>();
+                //set it up to return anything so that the app ctx is 'Configured'
+                mockedMigrationService.Setup(x => x.FindEntry(It.IsAny<string>(), It.IsAny<SemVersion>())).Returns(Mock.Of<IMigrationEntry>());
 
                 var serviceContext = new ServiceContext(
                     dataTypeService:mockedDataTypeService,
@@ -50,11 +56,18 @@ namespace Umbraco.RestApi.Tests.TestHelpers
                     contentService: mockedContentService, 
                     mediaService: mockedMediaService, 
                     memberService: mockedMemberService, 
-                    localizedTextService: mockedTextService);
+                    localizedTextService: mockedTextService,
+                    memberTypeService:mockedMemberTypeService,
+                    relationService:mockedRelationService,
+                    migrationEntryService:mockedMigrationService.Object);
 
                 //new app context
+                var dbCtx = new Mock<DatabaseContext>(Mock.Of<IDatabaseFactory>(), Mock.Of<ILogger>(), Mock.Of<ISqlSyntaxProvider>(), "test");
+                //ensure these are set so that the appctx is 'Configured'
+                dbCtx.Setup(x => x.CanConnect).Returns(true);
+                dbCtx.Setup(x => x.IsDatabaseConfigured).Returns(true);
                 var appCtx = ApplicationContext.EnsureContext(
-                    new DatabaseContext(Mock.Of<IDatabaseFactory>(), Mock.Of<ILogger>(), Mock.Of<ISqlSyntaxProvider>(), "test"),
+                    dbCtx.Object,
                     //pass in mocked services
                     serviceContext,
                     CacheHelper.CreateDisabledCacheHelper(),

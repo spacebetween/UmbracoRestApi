@@ -141,7 +141,7 @@ namespace Umbraco.RestApi.Tests
 
                 Assert.AreEqual("/umbraco/rest/v1/content/published/123", djson["_links"]["self"]["href"].Value<string>());
                 Assert.AreEqual("/umbraco/rest/v1/content/published/456", djson["_links"]["parent"]["href"].Value<string>());
-                Assert.AreEqual("/umbraco/rest/v1/content/published/{id}/children{?pageIndex,pageSize}", djson["_links"]["children"]["href"].Value<string>());
+                Assert.AreEqual("/umbraco/rest/v1/content/published/123/children{?pageIndex,pageSize}", djson["_links"]["children"]["href"].Value<string>());
                 Assert.AreEqual("/umbraco/rest/v1/content/published", djson["_links"]["root"]["href"].Value<string>());
 
                 var properties = djson["properties"].ToObject<IDictionary<string, object>>();
