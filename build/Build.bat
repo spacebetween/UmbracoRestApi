@@ -1,1 +1,1 @@
-Powershell -ExecutionPolicy RemoteSigned -File .\Build-Release.ps1 -ReleaseVersionNumber "0.9.0" -PreReleaseName ""
+Powershell -ExecutionPolicy RemoteSigned -File .\Build-Release.ps1 -ReleaseVersionNumber "0.9.0" -PreReleaseName "" 

@@ -28,3 +28,8 @@ app.ConfigureUmbracoRestApi(new UmbracoRestApiOptions()
                 AllowAnyOrigin = true
             }
 	});
+
+If you would like to have the Umbraco back office cookie used to authenticate the REST API 
+you can add this line of code too:
+
+app.UseUmbracoCookieAuthenticationForRestApi(ApplicationContext.Current);

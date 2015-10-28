@@ -20,29 +20,6 @@ using Umbraco.Web.Security.Identity;
 
 namespace Umbraco.RestApi
 {
-    //public class UmbracoStandardOwinStartup : UmbracoDefaultOwinStartup
-    //{
-    //    public override void Configuration(IAppBuilder app)
-    //    {
-    //        //ensure the default options are configured
-    //        base.Configuration(app);
-
-    //        app.ConfigureUmbracoRestApi(new UmbracoRestApiOptions()
-    //        {
-    //            //Modify the CorsPolicy as required
-    //            CorsPolicy = new CorsPolicy()
-    //            {
-    //                AllowAnyHeader = true,
-    //                AllowAnyMethod = true,
-    //                AllowAnyOrigin = true
-    //            }
-    //        });
-
-    //        app.UseUmbracoCookieAuthenticationForRestApi(ApplicationContext.Current);
-
-    //    }
-    //}
-
     public static class AppBuilderExtensions
     {
         public static void ConfigureUmbracoRestApi(this IAppBuilder app, UmbracoRestApiOptions options)
@@ -51,6 +28,12 @@ namespace Umbraco.RestApi
             UmbracoRestApiOptionsInstance.Options = options;
         }
 
+        /// <summary>
+        /// Used to enable back office cookie authentication for the REST API calls
+        /// </summary>
+        /// <param name="app"></param>
+        /// <param name="appContext"></param>
+        /// <returns></returns>
         public static IAppBuilder UseUmbracoCookieAuthenticationForRestApi(this IAppBuilder app, ApplicationContext appContext)
         {
             //Don't proceed if the app is not ready

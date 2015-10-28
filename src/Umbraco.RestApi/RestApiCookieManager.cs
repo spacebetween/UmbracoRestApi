@@ -21,9 +21,11 @@ namespace Umbraco.RestApi
                 return null;
             }
 
-            var umbPath = GlobalSettings.Path.EnsureStartsWith('/').EnsureStartsWith('/');
+            var umbPath = GlobalSettings.Path.EnsureStartsWith('/').EnsureEndsWith('/');
             var restApiPath = umbPath + "rest/v1/";
-            var shouldAuth = context.Request.PathBase.StartsWithSegments(new PathString(restApiPath));
+            //TODO: Don't think this works for vdir, need to check for that.
+
+            var shouldAuth = context.Request.Path.Value.InvariantStartsWith(restApiPath);
 
             return shouldAuth == false
                 //Don't auth request, don't return a cookie
