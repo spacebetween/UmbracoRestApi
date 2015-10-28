@@ -4,11 +4,34 @@ The Umbraco REST API is for content, media, members & relations. It's Based on t
 
 ## Installation
 
-*Coming soon!*
-
 Umbraco REST API can be installed via Nuget:
 
     Install-Package UmbracoCms.RestApi
+
+This package will also install another add-on for Umbraco called [Identity Extensions](https://github.com/umbraco/UmbracoIdentityExtensions).
+
+Once installed, a readme is displayed with a snippet of code to enable the REST API. This can be done using OWIN startup classes and because the IdentityExtensions package has
+been installed, a few classes have been added to your ~/App_Startup folder. The easiest way to enable the REST API is to copy the code snippet from the readme that 
+is displayed:
+
+```
+app.ConfigureUmbracoRestApi(new UmbracoRestApiOptions()
+	{
+		//Modify the CorsPolicy as required
+		CorsPolicy = new CorsPolicy()
+            {
+                AllowAnyHeader = true,
+                AllowAnyMethod = true,
+                AllowAnyOrigin = true
+            }
+	});
+```
+
+then open the file: `~/App_Startup/UmbracoStandardOwinStartup.cs`
+
+and paste this snippet just underneath this line of code: `base.Configuration(app);`
+
+That's it, you've now enabled the REST API.
 
 ## Discovery
 
