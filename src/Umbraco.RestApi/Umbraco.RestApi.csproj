@@ -280,7 +280,7 @@
     <Compile Include="Controllers\QueryStructureModelBinder.cs" />
     <Compile Include="Controllers\RelationsController.cs" />
     <Compile Include="Controllers\UmbracoHalContentControllerBase.cs" />
-    <Compile Include="Controllers\UmbracoHalControllerBasr.cs" />
+    <Compile Include="Controllers\UmbracoHalControllerBase.cs" />
     <Compile Include="Links\ILinkTemplate.cs" />
     <Compile Include="Links\IRelationLinkTemplate.cs" />
     <Compile Include="Links\MediaLinkTemplate.cs" />
