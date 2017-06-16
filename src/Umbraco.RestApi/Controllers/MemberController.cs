@@ -123,6 +123,9 @@ namespace Umbraco.RestApi.Controllers
             Mapper.Map(content, created);
             MemberService.Save(created);
 
+            // Save usergroup
+            MemberService.AssignRole(created.Id, content.MemberRole);
+
             return created;
         }
 

@@ -34,6 +34,9 @@ namespace Umbraco.RestApi.Models
         [Display(Name = "email")]
         public string Email { get; set; }
 
+        [Display(Name = "memberRole")]
+        public string MemberRole { get; set; }
+
         private readonly ILinkTemplate _linkTemplate;
 
         protected override void CreateHypermedia()
